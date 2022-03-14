@@ -1,0 +1,814 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>2013年蓝桥杯省赛C组笔记</title>
+    <link rel="shortcut icon" href="#"/>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/LongCang.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Monda.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/NotoSansSC.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Playball.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/PTMono.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/RobotoSlab.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Rosario.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/UbuntuMono.css">
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/normal.css">
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/jquery-3.4.1.min.js"></script>
+
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="三国小梦的博客" type="application/atom+xml">
+</head>
+<body>
+    <a id="cover"></a>
+    <div id="header">
+    <div class="header">
+        <div class="vertical">
+            <div class="inner">
+                <h1 class="header-subtitle">2013年蓝桥杯省赛C组笔记</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2020-04-07
+                        </span>
+                        
+                            <span id="/2020/04/07/39_2013年蓝桥杯省赛C组笔记/" class="leancloud_visitors" data-flag-title="2013年蓝桥杯省赛C组笔记">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2020/04/07/39_2013年蓝桥杯省赛C组笔记/"></span>
+                        </span>  
+                    </p>                 
+                </div>
+            </div>
+        </div>
+        <canvas id="articleHeaderCanvas"></canvas>
+    </div>
+</div>
+    <div id="container">
+    <div id="content">
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <p>猜年龄（简单枚举）、马虎的算式（枚举加验证）、振兴中华（递归）、幻方填空（全排列）、公约数公倍数、三部排序（三指针快速排序的变体）、核桃的数量（简单枚举）、打印十字图（先写死再写活）、带分数（全排列+枚举“+”和“/”的插入位置）、剪格子（深搜+回溯+剪枝）</p>
+<span id="more"></span>
+
+<h1 id="猜年龄（简单枚举）"><a href="#猜年龄（简单枚举）" class="headerlink" title="猜年龄（简单枚举）"></a>猜年龄（简单枚举）</h1><p>美国数学家维纳(N.Wiener)智力早熟，11岁就上了大学。他曾在1935~1936年应邀来中国清华大学讲学。一次，他参加某个重要会议，年轻的脸孔引人注目。于是有人询问他的年龄，他回答说：“<strong>我年龄的立方是个4位数。我年龄的4次方是个6位数。这10个数字正好包含了从0到9这10个数字，每个都恰好出现1次。</strong>”</p>
+<p>请你推算一下，他当时到底有多年轻。通过浏览器，直接提交他那时的年龄数字。注意：不要提交解答过程，或其它的说明文字。</p>
+<p>代码：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">10</span>;i&lt;<span class="number">50</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> _3=i*i*i;</span><br><span class="line">        <span class="keyword">int</span> _4=_3*i;</span><br><span class="line">        <span class="keyword">if</span>(_3&gt;=<span class="number">1000</span>&amp;&amp;_3&lt;<span class="number">10000</span>&amp;&amp;_4&gt;=<span class="number">100000</span>&amp;&amp;_4&lt;<span class="number">1000000</span>)&#123;</span><br><span class="line">        	<span class="built_in">printf</span>(<span class="string">&quot;%d %d %d\n&quot;</span>,i,_3,_4);</span><br><span class="line">    	&#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出结果为：</span></span><br><span class="line"><span class="comment">//18 5832 104976</span></span><br><span class="line"><span class="comment">//19 6859 130321</span></span><br><span class="line"><span class="comment">//20 8000 160000</span></span><br><span class="line"><span class="comment">//21 9261 194481</span></span><br></pre></td></tr></table></figure>
+
+<p>由于这是填空题，只要能算出结果即可，先把可能的结果输出，根据判断年龄为<strong>18</strong>的时候，0-9每个数字只出现1次符合条件。</p>
+<h1 id="马虎的算式（枚举-验证）"><a href="#马虎的算式（枚举-验证）" class="headerlink" title="马虎的算式（枚举+验证）"></a>马虎的算式（枚举+验证）</h1><p>小明是个急性子，上小学的时候经常把老师写在黑板上的题目抄错了。</p>
+<p>有一次，老师出的题目是：36 x 495 = ?</p>
+<p>他却给抄成了：396 x 45 = ?</p>
+<p>但结果却很戏剧性，他的答案竟然是对的！！</p>
+<p>因为 36 * 495 = 396 * 45 = 17820</p>
+<p>类似这样的巧合情况可能还有很多，比如：27 * 594 = 297 * 54</p>
+<p>假设 a b c d e 代表1~9不同的5个数字（<strong>注意是各不相同的数字，且不含0</strong>）</p>
+<p>能满足形如： ab * cde = adb * ce 这样的算式一共有多少种呢？</p>
+<p>请你利用计算机的优势寻找所有的可能，并回答不同算式的种类数。</p>
+<p>满足乘法交换律的算式计为不同的种类，所以答案肯定是个偶数。</p>
+<p>答案直接通过浏览器提交。<br>注意：只提交一个表示最终统计种类数的数字，不要提交解答过程或其它多余的内容。</p>
+<p>代码：</p>
+<p>暴力枚举列出所有可能结果</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> a=<span class="number">1</span>;a&lt;=<span class="number">9</span>;a++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> b=<span class="number">1</span>;b&lt;=<span class="number">9</span>;b++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(b!=a)&#123;<span class="comment">//各个数字不相同判断 </span></span><br><span class="line">				<span class="keyword">for</span>(<span class="keyword">int</span> c=<span class="number">1</span>;c&lt;=<span class="number">9</span>;c++)&#123;</span><br><span class="line">					<span class="keyword">if</span>(c!=a&amp;&amp;c!=b)&#123;<span class="comment">//各个数字不相同判断 </span></span><br><span class="line">						<span class="keyword">for</span>(<span class="keyword">int</span> d=<span class="number">1</span>;d&lt;=<span class="number">9</span>;d++)&#123;</span><br><span class="line">							<span class="keyword">if</span>(d!=a&amp;&amp;d!=b&amp;&amp;d!=c)&#123;<span class="comment">//各个数字不相同判断 </span></span><br><span class="line">								<span class="keyword">for</span>(<span class="keyword">int</span> e=<span class="number">1</span>;e&lt;=<span class="number">9</span>;e++)&#123;</span><br><span class="line">									<span class="keyword">if</span>(e!=a&amp;&amp;e!=b&amp;&amp;e!=c&amp;&amp;e!=d)&#123;<span class="comment">//各个数字不相同判断 </span></span><br><span class="line">										<span class="keyword">if</span>((a*<span class="number">10</span>+b)*(c*<span class="number">100</span>+d*<span class="number">10</span>+e)==(a*<span class="number">100</span>+d*<span class="number">10</span>+b)*(c*<span class="number">10</span>+e))&#123;</span><br><span class="line">											ans++;</span><br><span class="line">										&#125;</span><br><span class="line">									&#125;</span><br><span class="line">								&#125;</span><br><span class="line">							&#125;</span><br><span class="line">						&#125;</span><br><span class="line">					&#125;</span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出结果：142</span></span><br></pre></td></tr></table></figure>
+
+<p>暴力到没朋友</p>
+<p>填空题应第一考虑能否暴力枚举，简单粗暴。</p>
+<h1 id="振兴中华（递归）"><a href="#振兴中华（递归）" class="headerlink" title="振兴中华（递归）"></a>振兴中华（递归）</h1><p>小明参加了学校的趣味运动会，其中的一个项目是：跳格子。</p>
+<p>地上画着一些格子，每个格子里写一个字，如下所示：</p>
+<p><img src="https://pic.downk.cc/item/5e8c88c2504f4bcb0441cefe.jpg"></p>
+<p>比赛时，先站在左上角的写着“从”字的格子里，可以横向或纵向跳到相邻的格子里，但不能跳到对角的格子或其它位置。一直要跳到“华”字结束。</p>
+<p>要求跳过的路线刚好构成“从我做起振兴中华”这句话。</p>
+<p>请你帮助小明算一算他一共有多少种可能的跳跃路线呢？</p>
+<p>答案是一个整数，请通过浏览器直接提交该数字。<br>注意：不要提交解答过程，或其它辅助说明类的内容。</p>
+<p>代码：</p>
+<p>简单理解就是从“从”到“华”有多少条路可以走</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">bool</span> vis[<span class="number">5</span>][<span class="number">5</span>];</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;</span><br><span class="line">	<span class="keyword">if</span>(x==<span class="number">3</span>&amp;&amp;y==<span class="number">4</span>) <span class="comment">//已经到&quot;华&quot;只有一种</span></span><br><span class="line">		<span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(x==<span class="number">3</span>) <span class="comment">//已经到最后一行，只能往右走</span></span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">f</span>(x,y+<span class="number">1</span>);</span><br><span class="line">	<span class="keyword">else</span> <span class="keyword">if</span>(y==<span class="number">4</span>) <span class="comment">//已经到最后一列，只能往下走</span></span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">f</span>(x+<span class="number">1</span>,y);</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">		<span class="keyword">return</span> <span class="built_in">f</span>(x+<span class="number">1</span>,y)+<span class="built_in">f</span>(x,y+<span class="number">1</span>);</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cout&lt;&lt;<span class="built_in">f</span>(<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//输出结果：35</span></span><br></pre></td></tr></table></figure>
+
+<p>递归的方法：找重复、找状态、找出口</p>
+<h1 id="幻方填空（暴力法全排列）"><a href="#幻方填空（暴力法全排列）" class="headerlink" title="幻方填空（暴力法全排列）"></a>幻方填空（暴力法全排列）</h1><p>幻方是把一些数字填在方格中，使得行、列、两条对角线的数字之和都相等。</p>
+<p>欧洲最著名的幻方是德国数学家、画家迪勒创作的版画《忧郁》中给出的一个4阶幻方。</p>
+<p>他把1,2,3,…16 这16个数字填写在4 x 4的方格中。</p>
+<p>如图所示，即： </p>
+<p><img src="https://pic.downk.cc/item/5e8d24ef504f4bcb04c235c7.jpg"></p>
+<p>表中有些数字已经显露出来，还有些用?和*代替。</p>
+<p>请你计算出? 和 * 所代表的数字。并把 * 所代表的数字作为本题答案提交。</p>
+<p>答案是一个整数，请通过浏览器直接提交该数字。</p>
+<p>注意：不要提交解答过程，或其它辅助说明类的内容。</p>
+<p>代码：</p>
+<p>已经使用的数字：1，9，11，13，16</p>
+<p>未使用的数字：2，3，4，5，6，7，8，10，12，14，15</p>
+<p>因为每个空只能填一个数字，每个数字只能填一次，故使用暴力法，求未使用的数字进行全排列，即它们可能组成的各种顺序，依次填入方格中进行判断，当满足条件时返回即可。</p>
+<p><strong>在c++中有相应的全排列公式next_permutation()，其它语言需要手动实现。</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;vector&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span> </span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> a[]=&#123;<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">10</span>,<span class="number">12</span>,<span class="number">14</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">check</span><span class="params">(vector&lt;<span class="keyword">int</span>&gt; arr)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> r1=<span class="number">16</span>+arr[<span class="number">0</span>]+arr[<span class="number">1</span>]+<span class="number">13</span>;</span><br><span class="line">	<span class="keyword">int</span> r2=arr[<span class="number">2</span>]+arr[<span class="number">3</span>]+<span class="number">11</span>+arr[<span class="number">4</span>];</span><br><span class="line">	<span class="keyword">int</span> r3=<span class="number">9</span>+arr[<span class="number">5</span>]+arr[<span class="number">6</span>]+arr[<span class="number">7</span>];</span><br><span class="line">	<span class="keyword">int</span> r4=arr[<span class="number">8</span>]+<span class="number">15</span>+arr[<span class="number">9</span>]+<span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> c1=<span class="number">16</span>+arr[<span class="number">2</span>]+<span class="number">9</span>+arr[<span class="number">8</span>];</span><br><span class="line">	<span class="keyword">int</span> c2=arr[<span class="number">0</span>]+arr[<span class="number">3</span>]+arr[<span class="number">5</span>]+<span class="number">15</span>;</span><br><span class="line">	<span class="keyword">int</span> c3=arr[<span class="number">1</span>]+<span class="number">11</span>+arr[<span class="number">6</span>]+arr[<span class="number">9</span>];</span><br><span class="line">	<span class="keyword">int</span> c4=<span class="number">13</span>+arr[<span class="number">4</span>]+arr[<span class="number">7</span>]+<span class="number">1</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">int</span> l=<span class="number">16</span>+arr[<span class="number">3</span>]+arr[<span class="number">6</span>]+<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">int</span> r=<span class="number">13</span>+<span class="number">11</span>+arr[<span class="number">5</span>]+arr[<span class="number">8</span>];</span><br><span class="line">	<span class="keyword">if</span>(r1==r2&amp;&amp;r2==r3&amp;&amp;r3==r4&amp;&amp;r4==c1&amp;&amp;c1==c2&amp;&amp;c2==c3&amp;&amp;c3==c4&amp;&amp;c4==l&amp;&amp;l==r)&#123;</span><br><span class="line">		cout&lt;&lt;arr[<span class="number">7</span>]&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	vector&lt;<span class="keyword">int</span>&gt; arr;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">10</span>;i++)&#123;</span><br><span class="line">		arr.<span class="built_in">push_back</span>(a[i]);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		<span class="built_in">check</span>(arr); </span><br><span class="line">	&#125;<span class="keyword">while</span>(<span class="built_in">next_permutation</span>(arr.<span class="built_in">begin</span>(),arr.<span class="built_in">end</span>()));</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="公约数公倍数"><a href="#公约数公倍数" class="headerlink" title="公约数公倍数"></a>公约数公倍数</h1><p>我们经常会用到求两个整数的最大公约数和最小公倍数的功能。<br>下面的程序给出了一种算法。<br>函数 myfunc 接受两个正整数a,b<br>经过运算后打印出 它们的最大公约数和最小公倍数。<br>此时，调用 myfunc(15,20)  </p>
+<p>将会输出：<br>5<br>60 </p>
+<p>请分析代码逻辑，并推测划线处的代码，通过网页提交。<br>注意：仅把缺少的代码作为答案，千万不要填写多余的代码、符号或说明文字！！</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 交换数值</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">swap</span><span class="params">(<span class="keyword">int</span> *a,<span class="keyword">int</span> *b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> temp;</span><br><span class="line">   temp=*a;</span><br><span class="line">   *a=*b;</span><br><span class="line">   *b=temp;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">myfunc</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span>  <span class="comment">//使用辗转相除法求最大公约数</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">   <span class="keyword">int</span> m,n,r;  </span><br><span class="line">   <span class="keyword">if</span>(a&lt;b) <span class="built_in">swap</span>(&amp;a,&amp;b);</span><br><span class="line">   m=a;n=b;r=a%b;</span><br><span class="line">   <span class="keyword">while</span>(r!=<span class="number">0</span>)</span><br><span class="line">   &#123;</span><br><span class="line">    a=b;b=r;</span><br><span class="line">    r=a%b;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>,b);  <span class="comment">// 最大公约数 </span></span><br><span class="line">   <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, ____________________________________);  <span class="comment">// 最小公倍数 </span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//已知最大公约数b时可以使用公式 n*m/b     a,b已经改变，n,m是a,b的拷贝故使用n,m.</span></span><br><span class="line"><span class="comment">//答案：n*m/b</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h1 id="三部排序（快速排序的变体）"><a href="#三部排序（快速排序的变体）" class="headerlink" title="三部排序（快速排序的变体）"></a>三部排序（快速排序的变体）</h1><p>一般的排序有许多经典算法，如快速排序、希尔排序等。</p>
+<p>但实际应用时，经常会或多或少有一些特殊的要求。我们没必要套用那些经典算法，可以根据实际情况建立更好的解法。</p>
+<p>比如，对一个整型数组中的数字进行分类排序：</p>
+<p>使得负数都靠左端，正数都靠右端，0在中部。注意问题的特点是：负数区域和正数区域内并不要求有序。可以利用这个特点通过1次线性扫描就结束战斗!!</p>
+<p>以下的程序实现了该目标。</p>
+<p>其中x指向待排序的整型数组，len是数组的长度。</p>
+<p>如果给定数组：<br>25,18,-2,0,16,-5,33,21,0,19,-16,25,-3,0<br>则排序后为：<br>-3,-2,-16,-5,0,0,0,21,19,33,25,16,18,25</p>
+<p>请分析代码逻辑，并推测划线处的代码，通过网页提交<br>注意：仅把缺少的代码作为答案，千万不要填写多余的代码、符号或说明文字！！</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">sort3p</span><span class="params">(<span class="keyword">int</span>* x, <span class="keyword">int</span> len)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> p = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> left = <span class="number">0</span>;    </span><br><span class="line">    <span class="keyword">int</span> right = len<span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span>(p&lt;=right)&#123;</span><br><span class="line">        <span class="keyword">if</span>(x[p]&lt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> t = x[left];</span><br><span class="line">            x[left] = x[p];</span><br><span class="line">            x[p] = t;</span><br><span class="line">            left++;</span><br><span class="line">            p++;</span><br><span class="line">    	&#125;<span class="keyword">else</span> <span class="keyword">if</span>(x[p]&gt;<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">int</span> t = x[right];</span><br><span class="line">            x[right] = x[p];</span><br><span class="line">            x[p] = t;</span><br><span class="line">            right--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span>&#123;</span><br><span class="line">        	p++;  <span class="comment">//填空位置</span></span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>p 指向当前要判断元素的下边</p>
+<p>left 指向元素的左边都小于0，right指向元素的右边都大于0。</p>
+<h1 id="核桃的数量（简单枚举）"><a href="#核桃的数量（简单枚举）" class="headerlink" title="核桃的数量（简单枚举）"></a>核桃的数量（简单枚举）</h1><p>问题描述<br>小张是软件项目经理，他带领3个开发组。工期紧，今天都在加班呢。为鼓舞士气，小张打算给每个组发一袋核桃（据传言能补脑）。他的要求是：</p>
+<ol>
+<li>各组的核桃数量必须相同</li>
+<li>各组内必须能平分核桃（当然是不能打碎的）</li>
+<li>尽量提供满足1,2条件的最小数量（节约闹革命嘛）</li>
+</ol>
+<p>输入格式<br>输入包含三个正整数a, b, c，表示每个组正在加班的人数，用空格分开（a,b,c&lt;30）<br>输出格式<br>输出一个正整数，表示每袋核桃的数量。<br>样例输入1<br>2 4 5<br>样例输出1<br>20<br>样例输入2<br>3 1 1<br>样例输出2<br>3</p>
+<p>代码：</p>
+<p>简单理解就是要求这三个数的最小公倍数，使用暴力枚举，最坏三者的最小公倍数为a * b * c。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> a,b,c;</span><br><span class="line">	cin&gt;&gt;a&gt;&gt;b&gt;&gt;c;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=a*b*c;i++)&#123;</span><br><span class="line">		<span class="keyword">if</span>(i%a==<span class="number">0</span>&amp;&amp;i%b==<span class="number">0</span>&amp;&amp;i%c==<span class="number">0</span>)&#123;</span><br><span class="line">			cout&lt;&lt;i&lt;&lt;endl;</span><br><span class="line">			<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+
+<h1 id="打印十字图（先写死再写活）"><a href="#打印十字图（先写死再写活）" class="headerlink" title="打印十字图（先写死再写活）"></a>打印十字图（先写死再写活）</h1><p>小明为某机构设计了一个十字型的徽标（并非红十字会啊），如下所示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">..$$$$$$$$$$$$$..</span><br><span class="line">..$...........$..</span><br><span class="line">$$$.$$$$$$$$$.$$$</span><br><span class="line">$...$.......$...$</span><br><span class="line">$.$$$.$$$$$.$$$.$</span><br><span class="line">$.$...$...$...$.$</span><br><span class="line">$.$.$$$.$.$$$.$.$</span><br><span class="line">$.$.$...$...$.$.$</span><br><span class="line">$.$.$.$$$$$.$.$.$</span><br><span class="line">$.$.$...$...$.$.$</span><br><span class="line">$.$.$$$.$.$$$.$.$</span><br><span class="line">$.$...$...$...$.$</span><br><span class="line">$.$$$.$$$$$.$$$.$</span><br><span class="line">$...$.......$...$</span><br><span class="line">$$$.$$$$$$$$$.$$$</span><br><span class="line">..$...........$..</span><br><span class="line">..$$$$$$$$$$$$$..</span><br></pre></td></tr></table></figure>
+<p>对方同时也需要在电脑dos窗口中以字符的形式输出该标志，并能任意控制层数。</p>
+<p>输入1 ，则输出</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">..$$$$$..</span><br><span class="line">..$...$..</span><br><span class="line">$$$.$.$$$</span><br><span class="line">$...$...$</span><br><span class="line">$.$$$$$.$</span><br><span class="line">$...$...$</span><br><span class="line">$$$.$.$$$</span><br><span class="line">..$...$..</span><br><span class="line">..$$$$$..</span><br></pre></td></tr></table></figure>
+
+<p><strong>输入</strong></p>
+<p>一个正整数 n (n&lt; 30) 表示要求打印图形的层数。 </p>
+<p><strong>输出</strong></p>
+<p>对应包围层数的该标志。 </p>
+<p><strong>样例输入</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<p><strong>样例输出</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">..$$$$$$$$$$$$$.. </span><br><span class="line">..$...........$.. </span><br><span class="line">$$$.$$$$$$$$$.$$$ </span><br><span class="line">$...$.......$...$ </span><br><span class="line">$.$$$.$$$$$.$$$.$</span><br><span class="line">$.$...$...$...$.$</span><br><span class="line">$.$.$$$.$.$$$.$.$</span><br><span class="line">$.$.$...$...$.$.$</span><br><span class="line">$.$.$.$$$$$.$.$.$</span><br><span class="line">$.$.$...$...$.$.$</span><br><span class="line">$.$.$$$.$.$$$.$.$</span><br><span class="line">$.$...$...$...$.$</span><br><span class="line">$.$$$.$$$$$.$$$.$</span><br><span class="line">$...$.......$...$</span><br><span class="line">$$$.$$$$$$$$$.$$$</span><br><span class="line">..$...........$..</span><br><span class="line">..$$$$$$$$$$$$$.. </span><br></pre></td></tr></table></figure>
+
+<p>代码：</p>
+<p>假设最外层为第一层</p>
+<p>n=3时  </p>
+<p>为17 * 17的方格；第一行$个数13</p>
+<p>n=2时  </p>
+<p>为13 * 13的方格； 第一行$个数9</p>
+<p>n=1时 </p>
+<p>为 9 * 9的方格;    第一行$个数5</p>
+<p>L表示左侧边界为0，R表示右侧边界为9+4*(n-1)-1 （下标从0开始R的下标需要减1）</p>
+<p>写死后，只输出最外一层</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">char</span> arr[<span class="number">9</span>+<span class="number">4</span>*<span class="number">28</span>][<span class="number">9</span>+<span class="number">4</span>*<span class="number">28</span>];</span><br><span class="line"><span class="keyword">int</span> N; <span class="comment">//一共有几层 </span></span><br><span class="line"><span class="keyword">int</span> L=<span class="number">0</span>; <span class="comment">//最外层左边界下标 </span></span><br><span class="line"><span class="keyword">int</span> R; <span class="comment">//最外层右边界下标 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printAll</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=left;j&lt;=right;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(arr[i][j]!=<span class="string">&#x27;$&#x27;</span>) arr[i][j]=<span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			cout&lt;&lt;arr[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;N;</span><br><span class="line">	cout&lt;&lt;N&lt;&lt;endl;</span><br><span class="line">	R=<span class="number">9</span>+<span class="number">4</span>*(N<span class="number">-1</span>)<span class="number">-1</span>; <span class="comment">//求出最外层右边界下标 </span></span><br><span class="line">	</span><br><span class="line">	<span class="comment">//处理第一行和最后一行 </span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>;i&lt;=R<span class="number">-2</span>;i++)&#123;</span><br><span class="line">		arr[<span class="number">0</span>][i]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">		arr[R][i]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="comment">//处理第二行和倒数第二行</span></span><br><span class="line">	arr[<span class="number">1</span>][<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>; arr[<span class="number">1</span>][R<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-1</span>][<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>; arr[R<span class="number">-1</span>][R<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	<span class="comment">//处理第三行和倒数第三行</span></span><br><span class="line">	arr[<span class="number">2</span>][<span class="number">0</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[<span class="number">2</span>][<span class="number">1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[<span class="number">2</span>][<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[<span class="number">2</span>][R]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[<span class="number">2</span>][R<span class="number">-1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[<span class="number">2</span>][R<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-2</span>][<span class="number">0</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-2</span>][<span class="number">1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-2</span>][<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-2</span>][R]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-2</span>][R<span class="number">-1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[R<span class="number">-2</span>][R<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	<span class="comment">//处理两边</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">3</span>;i&lt;=R<span class="number">-3</span>;i++)&#123;</span><br><span class="line">		arr[i][<span class="number">0</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">		arr[i][R]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="built_in">printAll</span>(L,R);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">输入:</span><br><span class="line"><span class="number">3</span></span><br><span class="line">输出:</span><br><span class="line">..$$$$$$$$$$$$$..</span><br><span class="line">..$...........$..</span><br><span class="line">$$$...........$$$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$...............$</span><br><span class="line">$$$...........$$$</span><br><span class="line">..$...........$..</span><br><span class="line">..$$$$$$$$$$$$$..</span><br><span class="line">输入:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">输出:</span><br><span class="line">..$$$$$..</span><br><span class="line">..$...$..</span><br><span class="line">$$$...$$$</span><br><span class="line">$.......$</span><br><span class="line">$.......$</span><br><span class="line">$.......$</span><br><span class="line">$$$...$$$</span><br><span class="line">..$...$..</span><br><span class="line">..$$$$$..</span><br></pre></td></tr></table></figure>
+
+<p>然后找规律，发现每层只是左右边界不同L每次加2，R每次减2，故单独写一个方法输出第n层的图像</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">char</span> arr[<span class="number">9</span>+<span class="number">4</span>*<span class="number">28</span>][<span class="number">9</span>+<span class="number">4</span>*<span class="number">28</span>];</span><br><span class="line"><span class="keyword">int</span> N; <span class="comment">//一共有几层 </span></span><br><span class="line"><span class="keyword">int</span> L=<span class="number">0</span>; <span class="comment">//最外层左边界下标 </span></span><br><span class="line"><span class="keyword">int</span> R; <span class="comment">//最外层右边界下标 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printAll</span><span class="params">(<span class="keyword">int</span> left,<span class="keyword">int</span> right)</span></span>&#123;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=left;i&lt;=right;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=left;j&lt;=right;j++)&#123;</span><br><span class="line">			<span class="keyword">if</span>(arr[i][j]!=<span class="string">&#x27;$&#x27;</span>) arr[i][j]=<span class="string">&#x27;.&#x27;</span>;</span><br><span class="line">			cout&lt;&lt;arr[i][j];</span><br><span class="line">		&#125;</span><br><span class="line">		cout&lt;&lt;endl;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">dealN</span><span class="params">(<span class="keyword">int</span> n)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> l,r; <span class="comment">//当前层的左右边界,因为时方格,l也表示上边界,r也表示下边界 </span></span><br><span class="line">	l=<span class="number">2</span>*(N-n);</span><br><span class="line">	r=R<span class="number">-2</span>*(N-n); </span><br><span class="line">	<span class="comment">//处理第一行和最后一行 </span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=l+<span class="number">2</span>;i&lt;=r<span class="number">-2</span>;i++)&#123;</span><br><span class="line">		arr[l][i]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">		arr[r][i]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	&#125; </span><br><span class="line">	<span class="comment">//处理第二行和倒数第二行</span></span><br><span class="line">	arr[l+<span class="number">1</span>][l+<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>; arr[l+<span class="number">1</span>][r<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-1</span>][l+<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>; arr[r<span class="number">-1</span>][r<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	<span class="comment">//处理第三行和倒数第三行</span></span><br><span class="line">	arr[l+<span class="number">2</span>][l]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[l+<span class="number">2</span>][l+<span class="number">1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[l+<span class="number">2</span>][l+<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[l+<span class="number">2</span>][r]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[l+<span class="number">2</span>][r<span class="number">-1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[l+<span class="number">2</span>][r<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-2</span>][l]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-2</span>][l+<span class="number">1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-2</span>][l+<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-2</span>][r]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-2</span>][r<span class="number">-1</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	arr[r<span class="number">-2</span>][r<span class="number">-2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	<span class="comment">//处理两边</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=l+<span class="number">3</span>;i&lt;=r<span class="number">-3</span>;i++)&#123;</span><br><span class="line">		arr[i][l]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">		arr[i][r]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	&#125; </span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;N;</span><br><span class="line"></span><br><span class="line">	R=<span class="number">9</span>+<span class="number">4</span>*(N<span class="number">-1</span>)<span class="number">-1</span>; <span class="comment">//求出最外层右边界下标 </span></span><br><span class="line">	</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=N;i&gt;<span class="number">0</span>;i--)&#123;</span><br><span class="line">		<span class="built_in">dealN</span>(i);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//最后处理中间十字	</span></span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">2</span>*N;i&lt;<span class="number">2</span>*N+<span class="number">5</span>;i++)&#123;</span><br><span class="line">		arr[<span class="number">2</span>*N+<span class="number">2</span>][i]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">		arr[i][<span class="number">2</span>*N+<span class="number">2</span>]=<span class="string">&#x27;$&#x27;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">printAll</span>(L,R);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">输入<span class="number">3</span>时</span><br><span class="line">..$$$$$$$$$$$$$..</span><br><span class="line">..$...........$..</span><br><span class="line">$$$.$$$$$$$$$.$$$</span><br><span class="line">$...$.......$...$</span><br><span class="line">$.$$$.$$$$$.$$$.$</span><br><span class="line">$.$...$...$...$.$</span><br><span class="line">$.$.$$$.$.$$$.$.$</span><br><span class="line">$.$.$...$...$.$.$</span><br><span class="line">$.$.$.$$$$$.$.$.$</span><br><span class="line">$.$.$...$...$.$.$</span><br><span class="line">$.$.$$$.$.$$$.$.$</span><br><span class="line">$.$...$...$...$.$</span><br><span class="line">$.$$$.$$$$$.$$$.$</span><br><span class="line">$...$.......$...$</span><br><span class="line">$$$.$$$$$$$$$.$$$</span><br><span class="line">..$...........$..</span><br><span class="line">..$$$$$$$$$$$$$..</span><br></pre></td></tr></table></figure>
+
+<h1 id="带分数（全排列-枚举“-”号和“-”号的插入位置）"><a href="#带分数（全排列-枚举“-”号和“-”号的插入位置）" class="headerlink" title="带分数（全排列+枚举“+”号和“/”号的插入位置）"></a>带分数（全排列+枚举“+”号和“/”号的插入位置）</h1><p>问题描述<br>100 可以表示为带分数的形式：100 = 3 + 69258 / 714。</p>
+<p>还可以表示为：100 = 82 + 3546 / 197。</p>
+<p>注意特征：带分数中，数字1~9分别出现且只出现一次（不包含0）。</p>
+<p>类似这样的带分数，100 有 11 种表示法。</p>
+<p>输入格式<br>从标准输入读入一个正整数N (N&lt;1000*1000)</p>
+<p>输出格式<br>程序输出该数字用数码1~9不重复不遗漏地组成带分数表示的全部种数。</p>
+<p>注意：不要求输出每个表示，只统计有多少表示法！</p>
+<p>样例输入1<br>100<br>样例输出1<br>11<br>样例输入2<br>105<br>样例输出2<br>6</p>
+<p>分析:</p>
+<p>生成1-9这9个数字的全排列，先在可能的位置插入“+”号，然后在可能的位置插入“/”号，再验证等式。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,ans=<span class="number">0</span>;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line">	string s=<span class="string">&quot;123456789&quot;</span>;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">7</span>;i++)&#123; <span class="comment">// i:&quot;+&quot;前串的长度 </span></span><br><span class="line">			string a=s.<span class="built_in">substr</span>(<span class="number">0</span>,i);</span><br><span class="line">			<span class="keyword">int</span> inta=<span class="built_in">atoi</span>(a.<span class="built_in">c_str</span>());  <span class="comment">// string 转换 int </span></span><br><span class="line">			<span class="keyword">if</span>(inta&gt;=n) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=<span class="number">9</span>-i<span class="number">-1</span>;j++)&#123; <span class="comment">// j: &quot;+&quot;和&quot;/&quot;之间串的长度 </span></span><br><span class="line">				string b=s.<span class="built_in">substr</span>(i,j);</span><br><span class="line">				string c=s.<span class="built_in">substr</span>(i+j);<span class="comment">// &quot;/&quot;后面的串</span></span><br><span class="line">				<span class="keyword">int</span> intb=<span class="built_in">atoi</span>(b.<span class="built_in">c_str</span>());</span><br><span class="line">				<span class="keyword">int</span> intc=<span class="built_in">atoi</span>(c.<span class="built_in">c_str</span>());</span><br><span class="line">				<span class="keyword">if</span>(intb%intc==<span class="number">0</span>&amp;&amp;inta+intb/intc==n) ans++;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="keyword">while</span>(<span class="built_in">next_permutation</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()));</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>结果时正确的，但是运行超时，反复使用<code>substr()</code>函数会消耗大量时间，需要对代码进行改进。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;string&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"></span><br><span class="line"><span class="comment">//自己实现一个函数，通过从pos截取len长度的字符串</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">parse</span><span class="params">(<span class="keyword">const</span> <span class="keyword">char</span> *arr,<span class="keyword">int</span> pos,<span class="keyword">int</span> len)</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> ans=<span class="number">0</span>;</span><br><span class="line">	<span class="keyword">int</span> t=<span class="number">1</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=pos+len<span class="number">-1</span>;i&gt;=pos;i--)&#123;</span><br><span class="line">		ans+=(arr[i]-<span class="string">&#x27;0&#x27;</span>)*t;</span><br><span class="line">		t*=<span class="number">10</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> ans;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	<span class="keyword">int</span> n,ans=<span class="number">0</span>;</span><br><span class="line">	cin&gt;&gt;n;</span><br><span class="line">	string s=<span class="string">&quot;123456789&quot;</span>;</span><br><span class="line">	<span class="keyword">do</span>&#123;</span><br><span class="line">		<span class="keyword">const</span> <span class="keyword">char</span> *str=s.<span class="built_in">c_str</span>();</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">1</span>;i&lt;=<span class="number">7</span>;i++)&#123; <span class="comment">// i:&quot;+&quot;前串的长度 </span></span><br><span class="line"><span class="comment">//			string a=s.substr(0,i);</span></span><br><span class="line"><span class="comment">//			int inta=atoi(a.c_str());  // string 转换 int </span></span><br><span class="line">			<span class="keyword">int</span> inta=<span class="built_in">parse</span>(str,<span class="number">0</span>,i);</span><br><span class="line">			<span class="keyword">if</span>(inta&gt;=n) <span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">1</span>;j&lt;=<span class="number">9</span>-i<span class="number">-1</span>;j++)&#123; <span class="comment">// j: &quot;+&quot;和&quot;/&quot;之间串的长度 </span></span><br><span class="line"><span class="comment">//				string b=s.substr(i,j);</span></span><br><span class="line"><span class="comment">//				string c=s.substr(i+j);// &quot;/&quot;后面的串</span></span><br><span class="line"><span class="comment">//				int intb=atoi(b.c_str());</span></span><br><span class="line"><span class="comment">//				int intc=atoi(c.c_str());</span></span><br><span class="line">				<span class="keyword">int</span> intb=<span class="built_in">parse</span>(str,i,j);</span><br><span class="line">				<span class="keyword">int</span> intc=<span class="built_in">parse</span>(str,i+j,<span class="number">9</span>-i-j);</span><br><span class="line">				<span class="keyword">if</span>(intb%intc==<span class="number">0</span>&amp;&amp;inta+intb/intc==n) ans++;</span><br><span class="line">			&#125; </span><br><span class="line">		&#125;</span><br><span class="line">	&#125;<span class="keyword">while</span>(<span class="built_in">next_permutation</span>(s.<span class="built_in">begin</span>(),s.<span class="built_in">end</span>()));</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">//完美，测评通过。</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="剪格子（深搜-回溯-剪枝）"><a href="#剪格子（深搜-回溯-剪枝）" class="headerlink" title="剪格子（深搜+回溯+剪枝）"></a>剪格子（深搜+回溯+剪枝）</h1><p>如下图所示，3 x 3 的格子中填写了一些整数。</p>
+<p><img src="https://pic.downk.cc/item/5e8dc3cc504f4bcb0449d760.jpg"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+--*--+--+</span><br><span class="line">|10* 1|52|</span><br><span class="line">+--****--+</span><br><span class="line">|20|30* 1|</span><br><span class="line">*******--+</span><br><span class="line">| 1| 2| 3|</span><br><span class="line">+--+--+--+</span><br></pre></td></tr></table></figure>
+
+
+
+<p>我们沿着图中的星号线剪开，得到两个部分，每个部分的数字和都是60。</p>
+<p>本题的要求就是请你编程判定：对给定的m x n 的格子中的整数，是否可以分割为两个部分，使得这两个区域的数字和相等。</p>
+<p>如果存在多种解答，请输出包含左上角格子的那个区域包含的格子的最小数目。</p>
+<p>如果无法分割，则输出 0。</p>
+<p><strong>输入格式</strong><br>程序先读入两个整数 m n 用空格分割 (<strong>m,n&lt;10</strong>)。</p>
+<p>表示表格的宽度和高度。</p>
+<p>接下来是<strong>n行，每行m个正整数</strong>，用空格分开。每个整数不大于10000。</p>
+<p><strong>输出格式</strong><br>输出一个整数，表示在所有解中，包含左上角的分割区可能包含的最小的格子数目。<br><strong>样例输入1</strong><br>3 3<br>10    1    52<br>20    30    1<br>1      2     3<br><strong>样例输出1</strong><br>3<br><strong>样例输入2</strong><br>4 3<br>1    1    1    1<br>1    30  80  2<br>1    1    1    100<br><strong>样例输出2</strong><br>10</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span><span class="meta-string">&lt;algorithm&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="keyword">int</span> m,n,total;</span><br><span class="line"><span class="keyword">int</span> g[<span class="number">10</span>][<span class="number">10</span>],ans=<span class="number">100</span>;</span><br><span class="line"><span class="keyword">bool</span> vis[<span class="number">10</span>][<span class="number">10</span>];</span><br><span class="line"><span class="keyword">int</span> dx[]=&#123;<span class="number">1</span>, <span class="number">0</span>,<span class="number">-1</span>,<span class="number">0</span>&#125;;</span><br><span class="line"><span class="keyword">int</span> dy[]=&#123;<span class="number">0</span>,<span class="number">-1</span>, <span class="number">0</span>,<span class="number">1</span>&#125;;</span><br><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">in</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y)</span></span>&#123;  <span class="comment">//判断该位置是否合法 </span></span><br><span class="line">	<span class="keyword">if</span>(x&gt;=<span class="number">0</span>&amp;&amp;x&lt;=n<span class="number">-1</span>&amp;&amp;y&gt;=<span class="number">0</span>&amp;&amp;y&lt;=m<span class="number">-1</span>)&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">	&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">f</span><span class="params">(<span class="keyword">int</span> x,<span class="keyword">int</span> y,<span class="keyword">int</span> sum,<span class="keyword">int</span> cnt)</span></span>&#123;</span><br><span class="line"><span class="comment">//	printf(&quot;(%d,%d)sum=%d,cnt=%d\n&quot;,x,y,sum,cnt);</span></span><br><span class="line">	<span class="keyword">if</span>(sum&gt;total/<span class="number">2</span>)	<span class="keyword">return</span>;</span><br><span class="line">	<span class="keyword">if</span>(sum==total/<span class="number">2</span>)&#123;</span><br><span class="line">		ans=<span class="built_in">min</span>(ans,cnt);</span><br><span class="line">		<span class="keyword">return</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	vis[x][y]=<span class="literal">true</span>;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;<span class="number">4</span>;i++)&#123;</span><br><span class="line">		<span class="keyword">int</span> tx=x+dx[i];</span><br><span class="line">		<span class="keyword">int</span> ty=y+dy[i];</span><br><span class="line">		<span class="keyword">if</span>(<span class="built_in">in</span>(tx,ty)&amp;&amp;!vis[tx][ty])&#123;</span><br><span class="line">			<span class="built_in">f</span>(tx,ty,sum+g[x][y],cnt+<span class="number">1</span>);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	vis[x][y]=<span class="literal">false</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	cin&gt;&gt;m&gt;&gt;n;</span><br><span class="line">	<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;n;i++)&#123;</span><br><span class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> j=<span class="number">0</span>;j&lt;m;j++)&#123;</span><br><span class="line">			cin&gt;&gt;g[i][j];</span><br><span class="line">			total+=g[i][j];  <span class="comment">//求出所有元素的和 </span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">f</span>(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>);</span><br><span class="line">	cout&lt;&lt;ans&lt;&lt;endl;</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码可以通过蓝桥杯练习系统，但在有些特殊的情况会执行错误，例如：</p>
+<p>1    1</p>
+<p>1    2</p>
+<p>应输出3，运行结果是0，表示无法分割。</p>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://pic.imgdb.cn/item/61e55c432ab3f51d91422db7.png" alt="三国小梦">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：三国小梦
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2020/04/07/39_2013%E5%B9%B4%E8%93%9D%E6%A1%A5%E6%9D%AF%E7%9C%81%E8%B5%9BC%E7%BB%84%E7%AC%94%E8%AE%B0/" target="_blank">2013年蓝桥杯省赛C组笔记</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="article-footer">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/%E7%AE%97%E6%B3%95%E7%AC%94%E8%AE%B0/">算法笔记</a>
+                
+            </div>
+        
+        <div class="article-prev-next">
+            
+                <a href="/2020/04/13/40_linux%E5%9C%A8%E4%B8%8B%E8%BD%AF%E4%BB%B6%E5%A4%AA%E5%8D%A1%EF%BC%9F%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/" class="prev-prefix">« </a> 上一篇：    <a href="/2020/04/13/40_linux%E5%9C%A8%E4%B8%8B%E8%BD%AF%E4%BB%B6%E5%A4%AA%E5%8D%A1%EF%BC%9F%E6%89%8B%E6%8A%8A%E6%89%8B%E6%95%99%E4%BD%A0%E9%85%8D%E7%BD%AE%E5%9B%BD%E5%86%85%E9%95%9C%E5%83%8F%E6%BA%90/" title="发布于 2020-04-13 09:10">linux在下软件太卡？手把手教你配置国内镜像源</a>
+                <br>
+            
+            
+                <a href="/2020/03/31/38_java%E4%B8%AD%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/" class="next-prefix">» </a> 下一篇：    <a href="/2020/03/31/38_java%E4%B8%AD%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E4%B9%8B%E9%97%B4%E7%9A%84%E8%BD%AC%E6%8D%A2/" title="发布于 2020-03-31 09:16">java中基本数据类型之间的转换</a>
+            
+        </div>
+    </div>
+    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
+</div>
+
+    </div>
+</div>
+    <div id="footer"></div>
+    <div id="sidebar">
+    <div class="menu-wrap" style="display:none;">
+        <nav class="menu">
+            <div class="menu-introduce"> 
+                <div class="introduce-avatar"></div> 
+                <div class="introduce-info"> 
+                    <div class="introduce-user"><span></span></div>        
+                </div> 
+            </div> 
+            <div class="menu-list">
+                <ul></ul> 
+            </div> 
+            <div class="menu-link"></div> 
+        </nav>
+        <button class="menu-button-close"></button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
+            </svg>
+        </div>
+    </div>
+    <button class="menu-button-open">MENU</button>
+    <div class="menu-cover"></div>
+</div>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/search.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/iscroll.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/instantsearch.min.js"></script>
+<div class="search-window">
+    <div class="search-content">
+        <div class="search-content-icon">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="search-input" class="search-input"></div>
+    </div>
+
+    <div class="search-scroll">
+        <div class="search-result">
+            <div id="search-stats" class="search-stats"></div>
+            <div id="search-hits"></div>
+            <div id="search-pagination" class="search-pagination"></div>
+        </div>
+    </div>
+
+    <span class="search-close-icon">
+        <i class="iconfont icon-close"></i>
+    </span>
+</div>
+    <div id="tools">
+    <div class="progressbar-top"></div>
+
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/APlayer.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/APlayer.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/Meting.min.js"></script>
+        <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+    
+    
+    <div class="wrap-right"></div>
+    <div class="loading"></div>
+</div>
+    <script>
+    window.config = {
+        GitHubUserName     : 'first19326',
+        GitHubRepositories : 'Hexo-LiveForCode',
+
+        BlogUser      : '三国小梦',
+        BlogAvatar    : 'https://pic.imgdb.cn/item/61e55c432ab3f51d91422db7.png',
+        BlogStartDate : '2019-01-01',
+
+        WebsiteTitleBlur         : '(◍´꒳`◍) Hi, 三国小梦',
+        WebsiteTitleBlurTimeOut  : 500,
+        WebsiteTitleFocus        : '(*´∇｀*) 欢迎回来!',
+        WebsiteTitleFocusTimeOut : 1000,
+        WebsiteFavicon           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/website/logo.png',
+
+        ProgressBar: {
+            id       : 'topProgressBar',
+            color    : '#77B6FF',
+            height   : '2px',
+            duration : 0.2
+        },
+
+        Loading: {
+            rebound: {
+                tension  : 16,
+                friction : 5
+            },
+            spinner: {
+                id     : 'spinner',
+                radius : 90,
+                sides  : 3,
+                depth  : 4,
+                colors : {
+                    background : '#F0F0F0',
+                    stroke     : '#272633',
+                    base       : '',
+                    child      : '#272633'
+                },
+                alwaysForward : true,
+                restAt        : 0.5,
+                renderBase    : false
+            }
+        },
+
+        HomeHeaderAnimationRendered : true,
+        HomeHeaderAnimation         : {
+            radius      : 15,
+            density     : 0.2,
+            color       : 'rgba(255, 255, 255, .2)',
+            clearOffset : 0.3
+        },
+
+        ArticleHeaderAnimationRendered : false,
+        ArticleHeaderAnimation         : {
+            triW                  : 14,
+            triH                  : 20,
+            neighbours            : [
+                
+                    'side',
+                
+                    'top',
+                
+                    'bottom',
+                
+            ],
+            speedTrailAppear      : 0.1,
+            speedTrailDisappear   : 0.1,
+            speedTriOpen          : 1,
+            trailMaxLength        : 30,
+            trailIntervalCreation : 100,
+            delayBeforeDisappear  : 2,
+            colors                : [
+                
+                    '#96EDA6',
+                
+                    '#5BC6A9',
+                
+                    '#38668C',
+                
+                    '#374D84',
+                
+                    '#BED5CB',
+                
+                    '#62ADC6',
+                
+                    '#8EE5DE',
+                
+                    '#304E7B',
+                
+            ]
+        },
+
+        BackAnimationRendered          : true,
+        IEBrowserBackAnimationRendered : false,
+        BackAnimation                  : {
+            colorSaturation  : '60%',
+            colorBrightness  : '50%',
+            colorAlpha       : 0.5,
+            colorCycleSpeed  : 5,
+            verticalPosition : 'random',
+            horizontalSpeed  : 200,
+            ribbonCount      : 3,
+            strokeSize       : 0,
+            parallaxAmount   : -0.2,
+            animateSections  : true
+        },
+
+        HomeHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/header/home.jpg',
+            
+                'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/header/home.jpeg',
+            
+        ],
+        HomeBannerText  : '',
+
+        ArticleHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/header/article.jpg',
+            
+        ],
+
+        OtherBannerText : '',
+
+        MenuList : [
+            
+                {
+                    name   : '首页',
+                    href   : '/',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '标签',
+                    href   : '/tag',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '分类',
+                    href   : '/category',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '归档',
+                    href   : '/archives',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '赞赏',
+                    href   : '/donate',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '关于',
+                    href   : '/about',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '订阅',
+                    href   : '/atom.xml',    
+                    target : '_blank',
+                    class  : ''
+                },
+            
+                {
+                    name   : '搜索',
+                    href   : '',    
+                    target : '',
+                    class  : 'search'
+                },
+            
+                {
+                    name   : '留言板',
+                    href   : '/comment',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '友情链接',
+                    href   : '/friend',    
+                    target : '',
+                    class  : ''
+                },
+            
+        ],
+        MenuLink : [
+            
+                
+                    {
+                        icon : 'icon-weibo', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-wechat', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-qq', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-github', 
+                        url  : 'https://github.com/q314872695'
+                    },
+                
+            
+        ],
+
+        FooterStyle : 2,
+        BottomText  : {
+            icon    : 'like-fill',
+            left    : '人生若只如初见',
+            right   : '何事秋风悲画扇'
+        },
+        ThemeInfo   : true,
+
+        ConsoleList : [
+            
+                
+                    [
+                        
+                            
+                                'Based on cnblogs theme SimpleMemory.',
+                            
+                                '',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'SimpleMemory Author:',
+                            
+                                'BNDong',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'Theme:',
+                            
+                                'LiveForCode',
+                            
+                        
+                    ],
+                
+            
+        ],
+
+        FontIconExtend : '',
+
+        Donate : {
+            paypal  : '',
+            bitcoin : '',
+            alipay  : '',
+            wechat  : ''
+        },
+
+        Code : {
+            style : 'normal'
+        },  
+
+        Search : {
+            applicationID : '6JVVPXH6N1',
+            apiKey        : '83f68c1cfca7b9883d4f717598d67f0d',
+            indexName     : 'Note',
+            hits          : {
+                page : 10
+            },
+            labels        : {
+                placeholder : '搜索',
+                empty       : '未发现与 「${query}」 相关的内容',
+                stats       : '${hits} 条相关条目，使用了 ${time} 毫秒',
+            }
+        }, 
+
+        Valine : {
+            switch         : true,
+            el             : '.comments-content',
+            appId          : '1Y0tYndzwEIP0nRQjhOcLhYN-gzGzoHsz',
+            appKey         : 'yA5d5am04aw9kLrJHqmALrh6',
+            placeholder    : '你是我一生只会遇见一次的惊喜...',
+            avatar         : 'mm',
+            meta           : 'nick,mail,link',
+            requiredFields : 'nick,mail',
+            pageSize       : 5,
+            lang           : 'zh-cn',
+            visitor        : true,
+            enableQQ       : true
+        },
+
+        Tocbot : {
+            switch                : true,
+            tocSelector           : '.toc',
+            contentSelector       : '.article-body',
+            headingSelector       : 'h1, h2, h3, h4, h5',
+            headingsOffset        : 0,
+            scrollSmooth          : true,
+            scrollSmoothOffset    : -5,
+            positionFixedSelector : '.toc',
+            positionFixedClass    : 'toc-fixed',
+            fixedSidebarOffset    : '',
+        },
+
+        Require : {
+            baseUrl     : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/',
+            waitSeconds : 100
+        },
+
+        Music : {
+            type : 'Meting'
+        },
+        APlayer : {
+            container : '.aplayer',
+            fixed     : true,
+            autoplay  : false,
+            loop      : 'all',
+            order     : 'random',
+            preload   : 'auto',
+            volume    : 0.67,
+            mutex     : true,
+            lrcType   : 3,
+            audio     : [
+                
+                    {
+                        name   : 'aLIEz',
+                        artist : 'mizuki（瑞葵）',
+                        cover  : '/music/cover/aLIEz.jpg',
+                        url    : '/music/song/aLIEz.mp3',
+                        lrc    : '/music/lrc/aLIEz.lrc'
+                    },
+                
+                    {
+                        name   : 'Endless Tears',
+                        artist : 'CLIFF EDGE',
+                        cover  : '/music/cover/Endless Tears.jpg',
+                        url    : '/music/song/Endless Tears.mp3',
+                        lrc    : '/music/lrc/Endless Tears.lrc'
+                    },
+                
+                    {
+                        name   : 'Miracle',
+                        artist : 'Cascada',
+                        cover  : '/music/cover/Miracle.jpg',
+                        url    : '/music/song/Miracle.mp3',
+                        lrc    : '/music/lrc/Miracle.lrc'
+                    },
+                
+                    {
+                        name   : 'Roll The Dice',
+                        artist : '高珊',
+                        cover  : '/music/cover/Roll The Dice.jpg',
+                        url    : '/music/song/Roll The Dice.mp3',
+                        lrc    : '/music/lrc/Roll The Dice.lrc'
+                    },
+                
+                    {
+                        name   : 'See You Again',
+                        artist : 'Charlie Puth, Wiz Khalifa',
+                        cover  : '/music/cover/See You Again.jpg',
+                        url    : '/music/song/See You Again.mp3',
+                        lrc    : '/music/lrc/See You Again.lrc'
+                    },
+                
+                    {
+                        name   : 'Traveling Light',
+                        artist : 'Joel Hanson, Sara Groves',
+                        cover  : '/music/cover/Traveling Light.jpg',
+                        url    : '/music/song/Traveling Light.mp3',
+                        lrc    : '/music/lrc/Traveling Light.lrc'
+                    },
+                
+                    {
+                        name   : '痴心绝对',
+                        artist : '李圣杰',
+                        cover  : '/music/cover/痴心绝对.jpg',
+                        url    : '/music/song/痴心绝对.mp3',
+                        lrc    : '/music/lrc/痴心绝对.lrc'
+                    },
+                
+                    {
+                        name   : '好想大声说爱你',
+                        artist : 'BAAD（バード）',
+                        cover  : '/music/cover/好想大声说爱你.jpg',
+                        url    : '/music/song/好想大声说爱你.mp3',
+                        lrc    : '/music/lrc/好想大声说爱你.lrc'
+                    },
+                
+            ]
+        },
+        Meting : {
+            id       : '3778678', 
+            lrcshow  : false, 
+            server   : 'netease', 
+            type     : 'playlist', 
+            fixed    : true, 
+            autoplay : false, 
+            loop     : 'all', 
+            order    : 'random', 
+            preload  : 'auto', 
+            volume   : 0.67, 
+            mutex    : true
+        },
+
+        Mouse : {
+            enable  : true,
+            options : {
+                size  : 6,
+                sizeF : 24
+            }
+        },
+
+        LazyLoad : {
+            default : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/website/lazyload.svg'
+        },
+  
+        Style : {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/APlayer.css',
+            archive          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/archive.css',
+            donate           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/donate.css',
+            fancybox         : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/jquery.fancybox.css',
+            footer           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/footer.css',
+            iconfont         : 'https://at.alicdn.com/t/font_1546312_l3yohatebw.css',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/index.css',
+            menuBubble       : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/menu-bubble.css',
+            page             : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/page.css',
+            post             : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/post.css',
+            search           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/search.css',
+            tocbot           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/tocbot.css',
+            normal           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/normal.css',
+            night            : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/night.css',
+            clipboard        : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/clipboard.css'
+        },
+
+        Script: {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/APlayer.min.js',
+            config           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/require.config.js',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/index.js',
+            instantSearch    : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/instantsearch.min.js',
+            jQuery           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/jquery-3.4.1.min.js',
+            loading          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/loading.js',
+            meting           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/Meting.min.js',
+            iscroll          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/iscroll.js',
+            require          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/require.min.js'
+        },
+
+        Font: {
+            LongCang   : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/LongCang.css',
+            Monda      : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Monda.css',
+            NotoSansSC : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/NotoSansSC.css',
+            Playball   : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Playball.css',
+            PTMono     : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/PTMono.css',
+            RobotoSlab : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/RobotoSlab.css',
+            Rosario    : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Rosario.css',
+            UbuntuMono : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/UbuntuMono.css'
+        },
+
+        Suffix : {
+            about : '简单地活着, 肆意又精彩.'
+        },
+            
+        Theme : {
+            url  : 'https://github.com/first19326/Hexo-LiveForCode',
+            name : 'Hexo - Live For Code'
+        }  
+    };
+</script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/index.js"></script>
+</body>
+</html>

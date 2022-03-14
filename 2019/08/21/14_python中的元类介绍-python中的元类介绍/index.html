@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, shrink-to-fit=no">
+    <meta name="referrer" content="origin">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>python中的元类介绍</title>
+    <link rel="shortcut icon" href="#"/>
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/LongCang.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Monda.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/NotoSansSC.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Playball.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/PTMono.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/RobotoSlab.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Rosario.css">
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/UbuntuMono.css">
+
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/post.css">
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/normal.css">
+    
+
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/jquery-3.4.1.min.js"></script>
+
+<meta name="generator" content="Hexo 6.0.0"><link rel="alternate" href="/atom.xml" title="三国小梦的博客" type="application/atom+xml">
+</head>
+<body>
+    <a id="cover"></a>
+    <div id="header">
+    <div class="header">
+        <div class="vertical">
+            <div class="inner">
+                <h1 class="header-subtitle">python中的元类介绍</h1>
+                <div class="header-subinfo">
+                    <p class="article-info-text">
+                        <span>
+                            <i class="iconfont icon-time"></i> 发表时间：2019-08-21
+                        </span>
+                        
+                            <span id="/2019/08/21/14_python中的元类介绍-python中的元类介绍/" class="leancloud_visitors" data-flag-title="python中的元类介绍">
+                                <i class="iconfont icon-browse"></i> 阅读：<sapn class="leancloud-visitors-count"></span>
+                            </span>
+                        
+                        <span>
+                            <i class="iconfont icon-interactive"></i> 评论：<span class="valine-comment-count" data-xid="/2019/08/21/14_python中的元类介绍-python中的元类介绍/"></span>
+                        </span>  
+                    </p>                 
+                </div>
+            </div>
+        </div>
+        <canvas id="articleHeaderCanvas"></canvas>
+    </div>
+</div>
+    <div id="container">
+    <div id="content">
+        <div id="article">
+    <div class="toc"></div>
+    <div class="article-body">
+        <h1 id="类也是对象"><a href="#类也是对象" class="headerlink" title="类也是对象"></a>类也是对象</h1><p>在大多数编程语言中，类就是一组用来描述如何生成一个对象的代码段，在python中也是成立的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectCreator</span>:</span></span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line">	</span><br><span class="line">my_object = ObjectCreator()</span><br><span class="line"><span class="built_in">print</span>(my_object)</span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">输出结果：</span></span><br><span class="line"><span class="string">&lt;__main__.ObjectCreator object at 0x037DACD0&gt;</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>但是，python的类不止于此，类同样也是一种对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectCreator</span>:</span></span><br><span class="line">	<span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码段将在内存中创建一个对象，名字就叫做ObjectCreator。这个对象（类对象ObjectCreator）拥有创建对象（实例对象）的能力，但它本质上仍然还是一个对象，于是你就可以对它做如下的操作：</p>
+<ul>
+<li>给它复制一个变量</li>
+<li>拷贝它</li>
+<li>给它增加属性</li>
+<li>将它作为函数参数传递<br>示例代码：<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ObjectCreator</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="comment"># 把它赋值给一个变量</span></span><br><span class="line">a = ObjectCreator</span><br><span class="line"><span class="built_in">print</span>(a) <span class="comment"># &lt;class &#x27;__main__.ObjectCreator&#x27;&gt;</span></span><br><span class="line"><span class="comment"># 作为函数参数传递</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">echo</span>(<span class="params">o</span>):</span></span><br><span class="line">    <span class="built_in">print</span>(o)</span><br><span class="line">    </span><br><span class="line">echo(ObjectCreator) <span class="comment"># &lt;class &#x27;__main__.ObjectCreator&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="动态的创建类"><a href="#动态的创建类" class="headerlink" title="动态的创建类"></a>动态的创建类</h1>因为类也是对象，所以可以在运行时动态的创建它们，使用class关键字即可。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_class</span>(<span class="params">name</span>):</span></span><br><span class="line">    <span class="keyword">if</span> name == <span class="string">&#x27;foo&#x27;</span>:</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">Foo</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">return</span> Foo     <span class="comment"># 返回的是类，不是类的实例</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="class"><span class="keyword">class</span> <span class="title">Bar</span>(<span class="params"><span class="built_in">object</span></span>):</span></span><br><span class="line">            <span class="keyword">pass</span></span><br><span class="line">        <span class="keyword">return</span> Bar</span><br><span class="line">MyClass = choose_class(<span class="string">&quot;foo&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(MyClass) <span class="comment"># 打印类对象</span></span><br><span class="line"><span class="built_in">print</span>(MyClass()) <span class="comment"># 打印实例对象</span></span><br><span class="line"><span class="comment"># 输出结果</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;__main__.choose_class.&lt;locals&gt;.Foo&#x27;&gt;</span></span><br><span class="line"><span class="comment"># &lt;__main__.choose_class.&lt;locals&gt;.Foo object at 0x0368CFD0&gt;</span></span><br></pre></td></tr></table></figure>
+<h1 id="使用type创建类"><a href="#使用type创建类" class="headerlink" title="使用type创建类"></a>使用type创建类</h1>我们知道通过type()可以知道这个对象的类型是什么，他还有一个完全不同的功能，动态的创建类。<br>type可以接受一个类的描述作为参数，然后返回一个类。<br>语法：</li>
+</ul>
+<p><strong>type(类名，由父类名称构成的元组（针对继承的情况可以为空），包含属性的字典)</strong></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">MyClass = <span class="built_in">type</span>(<span class="string">&quot;MyClass&quot;</span>,(),&#123;&#125;)</span><br><span class="line"><span class="built_in">print</span>(MyClass)</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;__main__.MyClass&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用type创建带属性的类"><a href="#使用type创建带属性的类" class="headerlink" title="使用type创建带属性的类"></a>使用type创建带属性的类</h2><p>type 接受一个字典来为类定义属性，如下所示：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Foo = <span class="built_in">type</span>(<span class="string">&quot;Foo&quot;</span>,(),&#123;<span class="string">&#x27;bar&#x27;</span>:<span class="literal">True</span>&#125;)</span><br></pre></td></tr></table></figure>
+<p>等价于</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>:</span></span><br><span class="line">	bar = <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用type创建继承的子类"><a href="#使用type创建继承的子类" class="headerlink" title="使用type创建继承的子类"></a>使用type创建继承的子类</h2><p>接着上面的代码，我们已经创建了一个Foo类，现在来创建一个它的子类。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">FooChild = <span class="built_in">type</span>(<span class="string">&quot;FooChild&quot;</span>,(Foo,),&#123;&#125;)</span><br><span class="line"><span class="built_in">print</span>(FooChild.bar) <span class="comment"># # bar属性是由Foo继承而来</span></span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<p>注意：</p>
+<ul>
+<li>type的第二个参数，元组中是父类的名字，不是字符串。</li>
+<li>添加的属性是类属性，不是实例属性。</li>
+</ul>
+<h2 id="使用type创建带有方法的类"><a href="#使用type创建带有方法的类" class="headerlink" title="使用type创建带有方法的类"></a>使用type创建带有方法的类</h2><p>最终你会希望为你的类增加方法。只需要定义一个有着恰当签名的函数并将其作为属性赋值就可以了。</p>
+<h3 id="添加实例方法"><a href="#添加实例方法" class="headerlink" title="添加实例方法"></a>添加实例方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_f</span>(<span class="params">self</span>):</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;添加的实例方法&quot;</span>)</span><br><span class="line">Foo = <span class="built_in">type</span>(<span class="string">&quot;Foo&quot;</span>,(),&#123;<span class="string">&quot;test_f&quot;</span>:test_f&#125;)</span><br><span class="line">f = Foo()</span><br><span class="line">f.test_f()</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># 添加的实例方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加静态方法"><a href="#添加静态方法" class="headerlink" title="添加静态方法"></a>添加静态方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@staticmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_static</span>():</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;添加的静态方法&quot;</span>)</span><br><span class="line">Foo = <span class="built_in">type</span>(<span class="string">&quot;Foo&quot;</span>,(),&#123;<span class="string">&quot;test_static&quot;</span>:test_static&#125;)</span><br><span class="line">Foo.test_static()</span><br><span class="line">Foo.test_static()</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># 添加的静态方法</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="添加类方法"><a href="#添加类方法" class="headerlink" title="添加类方法"></a>添加类方法</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@classmethod</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">test_class</span>(<span class="params">cls</span>):</span></span><br><span class="line">	<span class="built_in">print</span>(<span class="string">&quot;添加的类方法&quot;</span>)</span><br><span class="line">Foo = <span class="built_in">type</span>(<span class="string">&quot;Foo&quot;</span>,(),&#123;<span class="string">&quot;test_class&quot;</span>:test_class&#125;)</span><br><span class="line">Foo.test_class()</span><br><span class="line"><span class="comment"># 输出的结果：</span></span><br><span class="line"><span class="comment">#添加的类方法</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="什么是元类"><a href="#什么是元类" class="headerlink" title="什么是元类"></a>什么是元类</h1><p>元类就是用来创建类的“东西”。元类就是就是用来创建类对象的，元类就是类的类。<br>可以这样理解：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">MyClass = 	MetaClass() <span class="comment"># 使用元类创建类对象</span></span><br><span class="line">MyObject = MyClass() <span class="comment"># 使用类对象创建实例对象</span></span><br></pre></td></tr></table></figure>
+
+<p>type函数其实就是元类。type就是在Python在背后创建所有类的元类，可以通过__class __属性来查看,__class __的<strong>功能是查看对象所在的类</strong>，它可以嵌套使用。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">A</span>:</span></span><br><span class="line">    <span class="keyword">pass</span></span><br><span class="line"><span class="built_in">print</span>(A.__class__)</span><br><span class="line">a = A()</span><br><span class="line"><span class="built_in">print</span>(a.__class__)</span><br><span class="line"><span class="built_in">print</span>(a.__class__.__class__)</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;type&#x27;&gt;</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;__main__.A&#x27;&gt;</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;type&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，最后对象的类都是type元类。<br><strong>Python中所有的东西，注意，我是指所有的东西——都是对象。这包括整数、字符串、函数以及类。它们全部都是对象，而且它们都是从一个类创建而来，这个类就是type。</strong><br>整数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">age = <span class="number">18</span></span><br><span class="line"><span class="built_in">print</span>(age.__class__)</span><br><span class="line"><span class="built_in">print</span>(age.__class__.__class__)</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;int&#x27;&gt;</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;type&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<p>字符串：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">name = <span class="string">&quot;张三&quot;</span></span><br><span class="line"><span class="built_in">print</span>(name .__class__)</span><br><span class="line"><span class="built_in">print</span>(name .__class__.__class__)</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;str&#x27;&gt;</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;type&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+<p>函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">f</span>():</span></span><br><span class="line">	<span class="keyword">pass</span></span><br><span class="line"><span class="built_in">print</span>(f.__class__)</span><br><span class="line"><span class="built_in">print</span>(f.__class__.__class__)</span><br><span class="line"><span class="comment"># 输出结果：</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;function&#x27;&gt;</span></span><br><span class="line"><span class="comment"># &lt;class &#x27;type&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="自定义元类"><a href="#自定义元类" class="headerlink" title="自定义元类"></a>自定义元类</h1><p>首先的了解一下metaclass属性，用它来指定一个元类，python会在定义的类中寻找metaclass属性，如果没找到，就到它的父类找以此类推。如果找到了，python就会用它来创建类对象，如果实在没有找到就会用内建的type来创建这个类。<br>metaclass中可以放type或者任何使用到type或者子类化type的东东都可以。<br>自定义类的主要目的：</p>
+<ul>
+<li>拦截类的创建</li>
+<li>修改类<h2 id="使用函数实现一个自定义的元类"><a href="#使用函数实现一个自定义的元类" class="headerlink" title="使用函数实现一个自定义的元类"></a>使用函数实现一个自定义的元类</h2>功能：把不是__开头的类属性名字变为大写<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">upper_attr</span>(<span class="params">future_class_name: <span class="built_in">str</span>,future_class_parents: <span class="built_in">tuple</span>,future_class_attr: <span class="built_in">dict</span></span>):</span></span><br><span class="line">	newAttr = &#123;&#125;</span><br><span class="line">	<span class="keyword">for</span> key,value <span class="keyword">in</span> future_class_attr.items():</span><br><span class="line">		<span class="keyword">if</span> <span class="keyword">not</span> key.startswith(<span class="string">&quot;__&quot;</span>):</span><br><span class="line">			newAttr[key.upper()] = value</span><br><span class="line">	<span class="keyword">return</span> <span class="built_in">type</span>(future_class_name,future_class_parents,newAttr)</span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>(<span class="params">metaclass=upper_attr</span>):</span></span><br><span class="line">	name = <span class="string">&quot;张三&quot;</span></span><br><span class="line">	age = <span class="number">18</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;name&quot;</span>) <span class="comment"># 判断是否有该类属性	False</span></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;NAME&quot;</span>) <span class="comment"># True</span></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;age&quot;</span>) <span class="comment"># False</span></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;AGE&quot;</span>) <span class="comment"># True</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="继承type实现一个自定义元类"><a href="#继承type实现一个自定义元类" class="headerlink" title="继承type实现一个自定义元类"></a>继承type实现一个自定义元类</h2><p>功能：同上</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MyMetaClass</span>(<span class="params"><span class="built_in">type</span></span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__new__</span>(<span class="params">cls, class_name: <span class="built_in">str</span>, class_parents: <span class="built_in">tuple</span>, class_attr: <span class="built_in">dict</span></span>):</span></span><br><span class="line">        newAttr = &#123;&#125;</span><br><span class="line">        <span class="keyword">for</span> key, value <span class="keyword">in</span> class_attr.items():</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> key.startswith(<span class="string">&quot;__&quot;</span>):</span><br><span class="line">                newAttr[key.upper()] = value</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 方法1：通过&#x27;type&#x27;来做类对象的创建</span></span><br><span class="line">        <span class="comment"># return type(class_name, class_parents, newAttr)</span></span><br><span class="line">    </span><br><span class="line">        <span class="comment"># 方法2：复用type.__new__方法</span></span><br><span class="line">        <span class="comment"># 这就是基本的OOP编程，没什么魔法</span></span><br><span class="line">        <span class="comment"># return type.__new__(cls, class_name, class_parents, newAttr)</span></span><br><span class="line">    </span><br><span class="line">        <span class="comment"># 方法3：使用super方法</span></span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">super</span>(MyMetaClass, cls).__new__(cls, class_name, class_parents, newAttr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span>(<span class="params">metaclass=MyMetaClass</span>):</span></span><br><span class="line">    name = <span class="string">&quot;张三&quot;</span></span><br><span class="line">    age = <span class="number">18</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;name&quot;</span>) <span class="comment"># 判断是否有该类属性	False</span></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;NAME&quot;</span>) <span class="comment"># True</span></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;age&quot;</span>) <span class="comment"># False</span></span><br><span class="line"><span class="built_in">hasattr</span>(Foo,<span class="string">&quot;AGE&quot;</span>) <span class="comment"># True</span></span><br></pre></td></tr></table></figure>
+<p>效果和上面是一样的。</p>
+
+        <p class="suffix-end">__END__</p>
+        <div class="suffix-box">
+            <div class="suffix-box-left">
+                <img src="https://pic.imgdb.cn/item/61e55c432ab3f51d91422db7.png" alt="三国小梦">
+            </div>
+            <div class="suffix-box-right">
+                <span class="suffix-box-title">文章作者</span>：三国小梦
+                <br>
+                <span class="suffix-box-title">文章出处</span>：<a href="/2019/08/21/14_python%E4%B8%AD%E7%9A%84%E5%85%83%E7%B1%BB%E4%BB%8B%E7%BB%8D-python%E4%B8%AD%E7%9A%84%E5%85%83%E7%B1%BB%E4%BB%8B%E7%BB%8D/" target="_blank">python中的元类介绍</a>
+                <br>
+                <span class="suffix-box-title">作者签名</span>：简单地活着, 肆意又精彩.
+                <br>
+                <span class="suffix-box-title">关于主题</span>：<a href="https://github.com/first19326/Hexo-LiveForCode" target="_blank">Hexo - Live For Code</a>
+                <br>
+                <span class="suffix-box-title">版权声明</span>：文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-nd/4.0/" title="BY-NC-SA" target="_blank">BY-NC-SA</a> 许可协议，转载请注明出处
+                <br>
+            </div>
+            <div style="clear: both;"></div>
+        </div>
+    </div>
+    <div class="article-footer">
+        
+        
+            <div class="tag">
+                标签：
+                
+                    <a href="/tags/python/">python</a>
+                
+            </div>
+        
+        <div class="article-prev-next">
+            
+                <a href="/2019/08/22/16_python%E4%B8%AD%E7%9A%84%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8-python%E4%B8%AD%E7%9A%84%E7%94%9F%E6%88%90%E5%99%A8%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%97%AD%E5%8C%85%E8%A3%85%E9%A5%B0%E5%99%A8/" class="prev-prefix">« </a> 上一篇：    <a href="/2019/08/22/16_python%E4%B8%AD%E7%9A%84%E7%94%9F%E6%88%90%E5%99%A8%E3%80%81%E8%BF%AD%E4%BB%A3%E5%99%A8%E3%80%81%E9%97%AD%E5%8C%85%E3%80%81%E8%A3%85%E9%A5%B0%E5%99%A8-python%E4%B8%AD%E7%9A%84%E7%94%9F%E6%88%90%E5%99%A8%E8%BF%AD%E4%BB%A3%E5%99%A8%E9%97%AD%E5%8C%85%E8%A3%85%E9%A5%B0%E5%99%A8/" title="发布于 2019-08-22 03:24">python中的生成器、迭代器、闭包、装饰器</a>
+                <br>
+            
+            
+                <a href="/2019/08/20/12_python%E7%9A%84%E7%B1%BB%E5%B1%9E%E6%80%A7%E3%80%81%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E3%80%81%E7%B1%BB%E6%96%B9%E6%B3%95%E3%80%81%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-python%E7%9A%84%E7%B1%BB%E5%B1%9E%E6%80%A7%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E7%B1%BB%E6%96%B9%E6%B3%95%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/" class="next-prefix">» </a> 下一篇：    <a href="/2019/08/20/12_python%E7%9A%84%E7%B1%BB%E5%B1%9E%E6%80%A7%E3%80%81%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E3%80%81%E7%B1%BB%E6%96%B9%E6%B3%95%E3%80%81%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95-python%E7%9A%84%E7%B1%BB%E5%B1%9E%E6%80%A7%E5%AE%9E%E4%BE%8B%E5%B1%9E%E6%80%A7%E7%B1%BB%E6%96%B9%E6%B3%95%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95/" title="发布于 2019-08-20 03:24">python的类属性、实例属性、类方法、静态方法</a>
+            
+        </div>
+    </div>
+    
+    <div class="article-comments">
+        <div class="comments-title">
+            评论列表
+        </div>
+        <div class="comments-content">
+        </div>
+    </div>
+
+</div>
+
+    </div>
+</div>
+    <div id="footer"></div>
+    <div id="sidebar">
+    <div class="menu-wrap" style="display:none;">
+        <nav class="menu">
+            <div class="menu-introduce"> 
+                <div class="introduce-avatar"></div> 
+                <div class="introduce-info"> 
+                    <div class="introduce-user"><span></span></div>        
+                </div> 
+            </div> 
+            <div class="menu-list">
+                <ul></ul> 
+            </div> 
+            <div class="menu-link"></div> 
+        </nav>
+        <button class="menu-button-close"></button>
+        <div class="morph-shape" id="morph-shape" data-morph-open="M-7.312,0H15c0,0,66,113.339,66,399.5C81,664.006,15,800,15,800H-7.312V0z;M-7.312,0H100c0,0,0,113.839,0,400c0,264.506,0,400,0,400H-7.312V0z">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 100 800" preserveAspectRatio="none">
+                <path d="M-7.312,0H0c0,0,0,113.839,0,400c0,264.506,0,400,0,400h-7.312V0z"/>
+            </svg>
+        </div>
+    </div>
+    <button class="menu-button-open">MENU</button>
+    <div class="menu-cover"></div>
+</div>
+    <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/search.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/iscroll.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/instantsearch.min.js"></script>
+<div class="search-window">
+    <div class="search-content">
+        <div class="search-content-icon">
+            <i class="iconfont icon-search"></i>
+        </div>
+        <div id="search-input" class="search-input"></div>
+    </div>
+
+    <div class="search-scroll">
+        <div class="search-result">
+            <div id="search-stats" class="search-stats"></div>
+            <div id="search-hits"></div>
+            <div id="search-pagination" class="search-pagination"></div>
+        </div>
+    </div>
+
+    <span class="search-close-icon">
+        <i class="iconfont icon-close"></i>
+    </span>
+</div>
+    <div id="tools">
+    <div class="progressbar-top"></div>
+
+    
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/APlayer.css">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/APlayer.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/Meting.min.js"></script>
+        <meting-js id="3778678" lrcshow="false" server="netease" type="playlist" fixed="true" autoplay="false" loop="all" order="random" preload="auto" volume="0.67" mutex="true"></meting-js>
+    
+    
+    <div class="wrap-right"></div>
+    <div class="loading"></div>
+</div>
+    <script>
+    window.config = {
+        GitHubUserName     : 'first19326',
+        GitHubRepositories : 'Hexo-LiveForCode',
+
+        BlogUser      : '三国小梦',
+        BlogAvatar    : 'https://pic.imgdb.cn/item/61e55c432ab3f51d91422db7.png',
+        BlogStartDate : '2019-01-01',
+
+        WebsiteTitleBlur         : '(◍´꒳`◍) Hi, 三国小梦',
+        WebsiteTitleBlurTimeOut  : 500,
+        WebsiteTitleFocus        : '(*´∇｀*) 欢迎回来!',
+        WebsiteTitleFocusTimeOut : 1000,
+        WebsiteFavicon           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/website/logo.png',
+
+        ProgressBar: {
+            id       : 'topProgressBar',
+            color    : '#77B6FF',
+            height   : '2px',
+            duration : 0.2
+        },
+
+        Loading: {
+            rebound: {
+                tension  : 16,
+                friction : 5
+            },
+            spinner: {
+                id     : 'spinner',
+                radius : 90,
+                sides  : 3,
+                depth  : 4,
+                colors : {
+                    background : '#F0F0F0',
+                    stroke     : '#272633',
+                    base       : '',
+                    child      : '#272633'
+                },
+                alwaysForward : true,
+                restAt        : 0.5,
+                renderBase    : false
+            }
+        },
+
+        HomeHeaderAnimationRendered : true,
+        HomeHeaderAnimation         : {
+            radius      : 15,
+            density     : 0.2,
+            color       : 'rgba(255, 255, 255, .2)',
+            clearOffset : 0.3
+        },
+
+        ArticleHeaderAnimationRendered : false,
+        ArticleHeaderAnimation         : {
+            triW                  : 14,
+            triH                  : 20,
+            neighbours            : [
+                
+                    'side',
+                
+                    'top',
+                
+                    'bottom',
+                
+            ],
+            speedTrailAppear      : 0.1,
+            speedTrailDisappear   : 0.1,
+            speedTriOpen          : 1,
+            trailMaxLength        : 30,
+            trailIntervalCreation : 100,
+            delayBeforeDisappear  : 2,
+            colors                : [
+                
+                    '#96EDA6',
+                
+                    '#5BC6A9',
+                
+                    '#38668C',
+                
+                    '#374D84',
+                
+                    '#BED5CB',
+                
+                    '#62ADC6',
+                
+                    '#8EE5DE',
+                
+                    '#304E7B',
+                
+            ]
+        },
+
+        BackAnimationRendered          : true,
+        IEBrowserBackAnimationRendered : false,
+        BackAnimation                  : {
+            colorSaturation  : '60%',
+            colorBrightness  : '50%',
+            colorAlpha       : 0.5,
+            colorCycleSpeed  : 5,
+            verticalPosition : 'random',
+            horizontalSpeed  : 200,
+            ribbonCount      : 3,
+            strokeSize       : 0,
+            parallaxAmount   : -0.2,
+            animateSections  : true
+        },
+
+        HomeHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/header/home.jpg',
+            
+                'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/header/home.jpeg',
+            
+        ],
+        HomeBannerText  : '',
+
+        ArticleHeaderImage : [
+            
+                'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/header/article.jpg',
+            
+        ],
+
+        OtherBannerText : '',
+
+        MenuList : [
+            
+                {
+                    name   : '首页',
+                    href   : '/',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '标签',
+                    href   : '/tag',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '分类',
+                    href   : '/category',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '归档',
+                    href   : '/archives',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '赞赏',
+                    href   : '/donate',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '关于',
+                    href   : '/about',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '订阅',
+                    href   : '/atom.xml',    
+                    target : '_blank',
+                    class  : ''
+                },
+            
+                {
+                    name   : '搜索',
+                    href   : '',    
+                    target : '',
+                    class  : 'search'
+                },
+            
+                {
+                    name   : '留言板',
+                    href   : '/comment',    
+                    target : '',
+                    class  : ''
+                },
+            
+                {
+                    name   : '友情链接',
+                    href   : '/friend',    
+                    target : '',
+                    class  : ''
+                },
+            
+        ],
+        MenuLink : [
+            
+                
+                    {
+                        icon : 'icon-weibo', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-wechat', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-qq', 
+                        url  : ''
+                    },
+                
+                    {
+                        icon : 'icon-github', 
+                        url  : 'https://github.com/q314872695'
+                    },
+                
+            
+        ],
+
+        FooterStyle : 2,
+        BottomText  : {
+            icon    : 'like-fill',
+            left    : '人生若只如初见',
+            right   : '何事秋风悲画扇'
+        },
+        ThemeInfo   : true,
+
+        ConsoleList : [
+            
+                
+                    [
+                        
+                            
+                                'Based on cnblogs theme SimpleMemory.',
+                            
+                                '',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'SimpleMemory Author:',
+                            
+                                'BNDong',
+                            
+                        
+                    ],
+                
+                    [
+                        
+                            
+                                'Theme:',
+                            
+                                'LiveForCode',
+                            
+                        
+                    ],
+                
+            
+        ],
+
+        FontIconExtend : '',
+
+        Donate : {
+            paypal  : '',
+            bitcoin : '',
+            alipay  : '',
+            wechat  : ''
+        },
+
+        Code : {
+            style : 'normal'
+        },  
+
+        Search : {
+            applicationID : '6JVVPXH6N1',
+            apiKey        : '83f68c1cfca7b9883d4f717598d67f0d',
+            indexName     : 'Note',
+            hits          : {
+                page : 10
+            },
+            labels        : {
+                placeholder : '搜索',
+                empty       : '未发现与 「${query}」 相关的内容',
+                stats       : '${hits} 条相关条目，使用了 ${time} 毫秒',
+            }
+        }, 
+
+        Valine : {
+            switch         : true,
+            el             : '.comments-content',
+            appId          : '1Y0tYndzwEIP0nRQjhOcLhYN-gzGzoHsz',
+            appKey         : 'yA5d5am04aw9kLrJHqmALrh6',
+            placeholder    : '你是我一生只会遇见一次的惊喜...',
+            avatar         : 'mm',
+            meta           : 'nick,mail,link',
+            requiredFields : 'nick,mail',
+            pageSize       : 5,
+            lang           : 'zh-cn',
+            visitor        : true,
+            enableQQ       : true
+        },
+
+        Tocbot : {
+            switch                : true,
+            tocSelector           : '.toc',
+            contentSelector       : '.article-body',
+            headingSelector       : 'h1, h2, h3, h4, h5',
+            headingsOffset        : 0,
+            scrollSmooth          : true,
+            scrollSmoothOffset    : -5,
+            positionFixedSelector : '.toc',
+            positionFixedClass    : 'toc-fixed',
+            fixedSidebarOffset    : '',
+        },
+
+        Require : {
+            baseUrl     : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/',
+            waitSeconds : 100
+        },
+
+        Music : {
+            type : 'Meting'
+        },
+        APlayer : {
+            container : '.aplayer',
+            fixed     : true,
+            autoplay  : false,
+            loop      : 'all',
+            order     : 'random',
+            preload   : 'auto',
+            volume    : 0.67,
+            mutex     : true,
+            lrcType   : 3,
+            audio     : [
+                
+                    {
+                        name   : 'aLIEz',
+                        artist : 'mizuki（瑞葵）',
+                        cover  : '/music/cover/aLIEz.jpg',
+                        url    : '/music/song/aLIEz.mp3',
+                        lrc    : '/music/lrc/aLIEz.lrc'
+                    },
+                
+                    {
+                        name   : 'Endless Tears',
+                        artist : 'CLIFF EDGE',
+                        cover  : '/music/cover/Endless Tears.jpg',
+                        url    : '/music/song/Endless Tears.mp3',
+                        lrc    : '/music/lrc/Endless Tears.lrc'
+                    },
+                
+                    {
+                        name   : 'Miracle',
+                        artist : 'Cascada',
+                        cover  : '/music/cover/Miracle.jpg',
+                        url    : '/music/song/Miracle.mp3',
+                        lrc    : '/music/lrc/Miracle.lrc'
+                    },
+                
+                    {
+                        name   : 'Roll The Dice',
+                        artist : '高珊',
+                        cover  : '/music/cover/Roll The Dice.jpg',
+                        url    : '/music/song/Roll The Dice.mp3',
+                        lrc    : '/music/lrc/Roll The Dice.lrc'
+                    },
+                
+                    {
+                        name   : 'See You Again',
+                        artist : 'Charlie Puth, Wiz Khalifa',
+                        cover  : '/music/cover/See You Again.jpg',
+                        url    : '/music/song/See You Again.mp3',
+                        lrc    : '/music/lrc/See You Again.lrc'
+                    },
+                
+                    {
+                        name   : 'Traveling Light',
+                        artist : 'Joel Hanson, Sara Groves',
+                        cover  : '/music/cover/Traveling Light.jpg',
+                        url    : '/music/song/Traveling Light.mp3',
+                        lrc    : '/music/lrc/Traveling Light.lrc'
+                    },
+                
+                    {
+                        name   : '痴心绝对',
+                        artist : '李圣杰',
+                        cover  : '/music/cover/痴心绝对.jpg',
+                        url    : '/music/song/痴心绝对.mp3',
+                        lrc    : '/music/lrc/痴心绝对.lrc'
+                    },
+                
+                    {
+                        name   : '好想大声说爱你',
+                        artist : 'BAAD（バード）',
+                        cover  : '/music/cover/好想大声说爱你.jpg',
+                        url    : '/music/song/好想大声说爱你.mp3',
+                        lrc    : '/music/lrc/好想大声说爱你.lrc'
+                    },
+                
+            ]
+        },
+        Meting : {
+            id       : '3778678', 
+            lrcshow  : false, 
+            server   : 'netease', 
+            type     : 'playlist', 
+            fixed    : true, 
+            autoplay : false, 
+            loop     : 'all', 
+            order    : 'random', 
+            preload  : 'auto', 
+            volume   : 0.67, 
+            mutex    : true
+        },
+
+        Mouse : {
+            enable  : true,
+            options : {
+                size  : 6,
+                sizeF : 24
+            }
+        },
+
+        LazyLoad : {
+            default : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/image/website/lazyload.svg'
+        },
+  
+        Style : {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/APlayer.css',
+            archive          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/archive.css',
+            donate           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/donate.css',
+            fancybox         : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/jquery.fancybox.css',
+            footer           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/footer.css',
+            iconfont         : 'https://at.alicdn.com/t/font_1546312_l3yohatebw.css',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/index.css',
+            menuBubble       : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/menu-bubble.css',
+            page             : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/page.css',
+            post             : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/post.css',
+            search           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/search.css',
+            tocbot           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/tocbot.css',
+            normal           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/normal.css',
+            night            : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/night.css',
+            clipboard        : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/css/clipboard.css'
+        },
+
+        Script: {
+            aplayer          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/APlayer.min.js',
+            config           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/require.config.js',
+            index            : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/index.js',
+            instantSearch    : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/instantsearch.min.js',
+            jQuery           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/jquery-3.4.1.min.js',
+            loading          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/loading.js',
+            meting           : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/Meting.min.js',
+            iscroll          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/iscroll.js',
+            require          : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/require.min.js'
+        },
+
+        Font: {
+            LongCang   : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/LongCang.css',
+            Monda      : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Monda.css',
+            NotoSansSC : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/NotoSansSC.css',
+            Playball   : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Playball.css',
+            PTMono     : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/PTMono.css',
+            RobotoSlab : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/RobotoSlab.css',
+            Rosario    : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/Rosario.css',
+            UbuntuMono : 'https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/font/UbuntuMono.css'
+        },
+
+        Suffix : {
+            about : '简单地活着, 肆意又精彩.'
+        },
+            
+        Theme : {
+            url  : 'https://github.com/first19326/Hexo-LiveForCode',
+            name : 'Hexo - Live For Code'
+        }  
+    };
+</script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/first19326/cdn@master/static/js/index.js"></script>
+</body>
+</html>
